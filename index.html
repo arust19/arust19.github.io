@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #e8c97a;
+      --accent-dim: rgba(232,201,122,0.12);
+      --text: #f0ece3;
+      --muted: #888;
+      --card-hover: #1e1e1e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── Header ────────────────────────────────────────── */
+    header {
+      position: relative;
+      z-index: 1;
+      padding: 80px 60px 60px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .header-left h1 span {
+      color: var(--accent);
+    }
+
+    .header-left p {
+      margin-top: 18px;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 380px;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .header-right a {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-right a:hover { color: var(--accent); }
+
+    /* ── Filter bar ────────────────────────────────────── */
+    .filter-bar {
+      position: relative;
+      z-index: 1;
+      padding: 24px 60px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Project grid ──────────────────────────────────── */
+    .grid-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 60px;
+    }
+
+    .project-count {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    .project-count span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Project card ──────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      padding: 36px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+    }
+
+    .card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .card-index {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: opacity 0.3s, transform 0.5s;
+    }
+
+    .card:hover .card-thumb img {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+
+    /* Placeholder for cards without images */
+    .thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #1a1a1a, #222);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    .card:hover .card-title { color: var(--accent); }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .card-arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .card:hover .card-arrow {
+      color: var(--accent);
+      gap: 14px;
+    }
+
+    .card-arrow svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover .card-arrow svg {
+      transform: translateX(4px);
+    }
+
+    /* ── Footer ────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 40px 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    /* ── Animations ────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+    .card:nth-child(5) { animation-delay: 0.33s; }
+    .card:nth-child(6) { animation-delay: 0.40s; }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 700px) {
+      header, .filter-bar, .grid-wrapper, footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      header { padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <header>
+    <div class="header-left">
+      <h1>My<br><span>Projects.</span></h1>
+      <p>A curated collection of things I've built. Click any card to explore the full write-up.</p>
+    </div>
+    <div class="header-right">
+      <!-- Add your social links here -->
+      <a href="https://github.com/YOUR_USERNAME" target="_blank">GitHub ↗</a>
+      <a href="mailto:you@email.com">Email me ↗</a>
+    </div>
+  </header>
+
+  <!-- ── Filter Bar ──────────────────────────────────────── -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="web">Web</button>
+    <button class="filter-btn" data-filter="ml">Machine Learning</button>
+    <button class="filter-btn" data-filter="hardware">Hardware</button>
+    <button class="filter-btn" data-filter="other">Other</button>
+  </div>
+
+  <!-- ── Project Grid ────────────────────────────────────── -->
+  <main class="grid-wrapper">
+    <p class="project-count"><span id="count">6</span> projects</p>
+
+    <div class="grid" id="project-grid">
+
+      <!-- ══ PROJECT CARD — duplicate & edit these ══════════════
+           To add a project:
+             1. Copy one <a class="card"> block
+             2. Set href="project-template.html" (rename the file for each project)
+             3. Fill in title, description, tags, and emoji/image
+             4. Set data-category to match a filter button
+      ─────────────────────────────────────────────────────── -->
+
+      <a class="card" href="projects/project-1.html" data-category="web">
+        <span class="card-index">01</span>
+        <div class="card-thumb">
+          <!-- Replace src with your screenshot path, or remove the img tag to show the emoji -->
+          <div class="thumb-placeholder">🌐</div>
+          <!-- <img src="assets/project-1-thumb.png" alt="Project 1 screenshot"> -->
+        </div>
+        <h2 class="card-title">Project One</h2>
+        <p class="card-desc">A short, punchy description of what this project does and why it's interesting. Keep it to 2–3 sentences.</p>
+        <div class="card-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" href="projects/project-2.html" data-category="ml">
+        <span class="card-index">02</span>
+        <div class="card-thumb">
+          <div class="thumb-placeholder">🧠</div>
+        </div>
+        <h2 class="card-title">Project Two</h2>
+        <p class="card-desc">Describe what problem this project solves, or what you learned by building it.</p>
+        <div class="card-tags">
+          <span class="tag">Python</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">FastAPI</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" href="projects/project-3.html" data-category="hardware">
+        <span class="card-index">03</span>
+        <div class="card-thumb">
+          <div class="thumb-placeholder">⚙️</div>
+        </div>
+        <h2 class="card-title">Project Three</h2>
+        <p class="card-desc">A brief summary of this project. What makes it unique? What was the hard part?</p>
+        <div class="card-tags">
+          <span class="tag">C++</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">CAD</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" href="projects/project-4.html" data-category="web">
+        <span class="card-index">04</span>
+        <div class="card-thumb">
+          <div class="thumb-placeholder">🛠️</div>
+        </div>
+        <h2 class="card-title">Project Four</h2>
+        <p class="card-desc">Describe what you built here. Mention the tech stack and what makes it interesting to explore.</p>
+        <div class="card-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">Vercel</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" href="projects/project-5.html" data-category="ml">
+        <span class="card-index">05</span>
+        <div class="card-thumb">
+          <div class="thumb-placeholder">📊</div>
+        </div>
+        <h2 class="card-title">Project Five</h2>
+        <p class="card-desc">What problem does this solve? Who would use it? What's the most impressive part?</p>
+        <div class="card-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">D3.js</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" href="projects/project-6.html" data-category="other">
+        <span class="card-index">06</span>
+        <div class="card-thumb">
+          <div class="thumb-placeholder">✨</div>
+        </div>
+        <h2 class="card-title">Project Six</h2>
+        <p class="card-desc">Replace this with your real project info. Copy and paste as many cards as you need!</p>
+        <div class="card-tags">
+          <span class="tag">Your Stack</span>
+          <span class="tag">Here</span>
+        </div>
+        <div class="card-arrow">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <p>Built with GitHub Pages · <a href="https://github.com/YOUR_USERNAME/YOUR_REPO">View source ↗</a></p>
+    <p>Your Name · <a href="mailto:you@email.com">you@email.com</a></p>
+  </footer>
+
+  <!-- ── Filter Script ───────────────────────────────────── -->
+  <script>
+    const btns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+    const countEl = document.getElementById('count');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        let visible = 0;
+
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+
+        countEl.textContent = visible;
+      });
+    });
+  </script>
+
+</body>
+</html>

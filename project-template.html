@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project One — My Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #e8c97a;
+      --accent-dim: rgba(232,201,122,0.12);
+      --text: #f0ece3;
+      --muted: #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── Nav ───────────────────────────────────────────── */
+    nav {
+      position: relative;
+      z-index: 1;
+      padding: 28px 60px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .nav-back:hover { color: var(--accent); gap: 14px; }
+
+    .nav-back svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s;
+    }
+
+    .nav-back:hover svg { transform: translateX(-4px); }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 80px 60px 60px;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0d0d;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover { background: #f0d98e; }
+
+    .btn-outline {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Main content ──────────────────────────────────── */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      max-width: 1200px;
+    }
+
+    /* ── Article ───────────────────────────────────────── */
+    article {
+      padding: 60px;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Cover image */
+    .cover-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 52px;
+    }
+
+    .cover-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: linear-gradient(135deg, #1a1a1a, #222);
+    }
+
+    /* Section blocks */
+    .section {
+      margin-bottom: 52px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #c8c4bb;
+      margin-bottom: 14px;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #c8c4bb;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .section ul li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Image gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 4/3;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #1a1a1a, #1e1e1e);
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Sidebar ───────────────────────────────────────── */
+    aside {
+      padding: 60px 40px;
+    }
+
+    .sidebar-section {
+      margin-bottom: 40px;
+    }
+
+    .sidebar-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .stack-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stack-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stack-name {
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+
+    .stack-role {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Nav between projects ──────────────────────────── */
+    .project-nav {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-nav a {
+      padding: 36px 60px;
+      text-decoration: none;
+      color: inherit;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .project-nav a:last-child { border-right: none; text-align: right; }
+
+    .project-nav a:hover { background: var(--surface); }
+
+    .project-nav .nav-hint {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .project-nav .nav-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    .project-nav a:hover .nav-title { color: var(--accent); }
+
+    /* ── Animations ────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeUp 0.5s ease both; }
+    article { animation: fadeUp 0.5s 0.1s ease both; }
+    aside { animation: fadeUp 0.5s 0.2s ease both; }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      article { border-right: none; border-bottom: 1px solid var(--border); }
+
+      nav, .hero, article, aside { padding-left: 24px; padding-right: 24px; }
+
+      .project-nav a { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      All projects
+    </a>
+    <a class="nav-logo" href="../index.html">My<span>Projects</span></a>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────────────── -->
+  <div class="hero">
+    <p class="hero-label">01 · Web</p>  <!-- Update project number & category -->
+    <h1>Project One</h1>               <!-- Update project title -->
+
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-value">2024</span>   <!-- Update year -->
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value">Completed</span>  <!-- In Progress / Completed / Archived -->
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Solo developer</span>   <!-- Your role -->
+      </div>
+    </div>
+
+    <div class="hero-tags">
+      <span class="tag">React</span>
+      <span class="tag">Node.js</span>
+      <span class="tag">PostgreSQL</span>
+      <!-- Add / remove tags -->
+    </div>
+
+    <div class="hero-links">
+      <a class="btn btn-primary" href="https://your-live-demo.com" target="_blank">
+        Live Demo ↗
+      </a>
+      <a class="btn btn-outline" href="https://github.com/YOUR_USERNAME/repo" target="_blank">
+        GitHub Repo ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Content ─────────────────────────────────────────── -->
+  <div class="content-wrapper">
+
+    <!-- Article -->
+    <article>
+
+      <!-- Cover image: replace src, or swap the img for the placeholder div -->
+      <div class="cover-image">
+        <div class="cover-placeholder">🌐</div>
+        <!-- <img src="../assets/project-1-cover.png" alt="Project One screenshot"> -->
+      </div>
+
+      <!-- Overview -->
+      <div class="section">
+        <p class="section-label">Overview</p>
+        <h2>What I Built</h2>
+        <p>
+          Write a compelling 2–3 sentence overview of your project here. What problem does it solve?
+          Who is it for? What makes it interesting or technically challenging?
+        </p>
+        <p>
+          Add another paragraph with more context here. This is where you can elaborate on the
+          motivation behind the project and any constraints you were working within.
+        </p>
+      </div>
+
+      <!-- Key features -->
+      <div class="section">
+        <p class="section-label">Features</p>
+        <h2>What It Does</h2>
+        <ul>
+          <li>Feature one — describe what it does and why it matters</li>
+          <li>Feature two — add as many bullets as needed</li>
+          <li>Feature three — keep each item concise and action-oriented</li>
+          <li>Feature four — highlight what you're most proud of</li>
+        </ul>
+      </div>
+
+      <!-- Gallery — replace placeholders with real images -->
+      <div class="section">
+        <p class="section-label">Gallery</p>
+        <h2>Screenshots</h2>
+        <div class="gallery">
+          <div class="gallery-item">
+            <div class="gallery-placeholder">Screenshot 1</div>
+            <!-- <img src="../assets/project-1-screen-1.png" alt="Screenshot 1"> -->
+          </div>
+          <div class="gallery-item">
+            <div class="gallery-placeholder">Screenshot 2</div>
+            <!-- <img src="../assets/project-1-screen-2.png" alt="Screenshot 2"> -->
+          </div>
+          <div class="gallery-item">
+            <div class="gallery-placeholder">Screenshot 3</div>
+            <!-- <img src="../assets/project-1-screen-3.png" alt="Screenshot 3"> -->
+          </div>
+          <div class="gallery-item">
+            <div class="gallery-placeholder">Screenshot 4</div>
+            <!-- <img src="../assets/project-1-screen-4.png" alt="Screenshot 4"> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical challenges -->
+      <div class="section">
+        <p class="section-label">Deep Dive</p>
+        <h2>Technical Challenges</h2>
+        <p>
+          Discuss the most interesting technical problems you solved. This is what separates a
+          portfolio piece from a tutorial project — show your thinking, not just the outcome.
+        </p>
+        <p>
+          You can include code snippets, architecture decisions, or lessons learned here.
+          Be specific about what was hard and how you solved it.
+        </p>
+      </div>
+
+    </article>
+
+    <!-- Sidebar -->
+    <aside>
+
+      <!-- Tech stack -->
+      <div class="sidebar-section">
+        <p class="sidebar-label">Tech Stack</p>
+        <div class="stack-list">
+          <div class="stack-item">
+            <span class="stack-name">React</span>
+            <span class="stack-role">Frontend</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-name">Node.js</span>
+            <span class="stack-role">Backend</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-name">PostgreSQL</span>
+            <span class="stack-role">Database</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-name">Vercel</span>
+            <span class="stack-role">Deployment</span>
+          </div>
+          <!-- Add or remove rows as needed -->
+        </div>
+      </div>
+
+      <!-- Stats — fun numbers about your project -->
+      <div class="sidebar-section">
+        <p class="sidebar-label">By the Numbers</p>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-value">3mo</div>
+            <div class="stat-label">Build time</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">4k</div>
+            <div class="stat-label">Lines of code</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">12</div>
+            <div class="stat-label">API endpoints</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">99%</div>
+            <div class="stat-label">Lighthouse score</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ── Previous / Next project ────────────────────────── -->
+  <div class="project-nav">
+    <a href="project-6.html">
+      <p class="nav-hint">← Previous</p>
+      <p class="nav-title">Project Six</p>  <!-- Update to previous project name -->
+    </a>
+    <a href="project-2.html">
+      <p class="nav-hint">Next →</p>
+      <p class="nav-title">Project Two</p>  <!-- Update to next project name -->
+    </a>
+  </div>
+
+</body>
+</html>
