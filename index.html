@@ -366,8 +366,8 @@
   <!-- ── Filter Bar ──────────────────────────────────────── -->
   <div class="filter-bar">
     <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="web">Completed</button>
-    <button class="filter-btn" data-filter="ml">In Progress</button>
+    <button class="filter-btn" data-filter="completed">Completed</button>
+    <button class="filter-btn" data-filter="inp">In Progress</button>
   </div>
  
   <!-- ── Project Grid ────────────────────────────────────── -->
@@ -384,7 +384,7 @@
              4. Set data-category to match a filter button
       ─────────────────────────────────────────────────────── -->
  
-      <a class="card" href="projects/project-1.html" data-category="Completed">
+      <a class="card" href="projects/project-1.html" data-category="completed">
         <span class="card-index">01</span>
         <div class="card-thumb">
           <!-- Replace src with your screenshot path, or remove the img tag to show the emoji -->
@@ -406,17 +406,17 @@
         </div>
       </a>
  
-      <a class="card" href="projects/project-2.html" data-category="ml">
+      <a class="card" href="projects/project-2.html" data-category="completed">
         <span class="card-index">02</span>
         <div class="card-thumb">
-          <div class="thumb-placeholder">🧠</div>
+          <img src="assets/images/315/PCB.png" alt="Project 2 screenshot">
         </div>
-        <h2 class="card-title">Project Two</h2>
-        <p class="card-desc">Describe what problem this project solves, or what you learned by building it.</p>
+        <h2 class="card-title">Microcontroller Based Reflex Timer</h2>
+        <p class="card-desc">A 2-layer mixed-signal embedded system featuring a radial LED matrix and onboard low-dropout voltage regulation</p>
         <div class="card-tags">
-          <span class="tag">Python</span>
-          <span class="tag">PyTorch</span>
-          <span class="tag">FastAPI</span>
+          <span class="tag">Mixed-Signal</span>
+          <span class="tag">Embedded System</span>
+          <span class="tag">PCB</span>
         </div>
         <div class="card-arrow">
           View project
