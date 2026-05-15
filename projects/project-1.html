@@ -471,32 +471,31 @@
 
   <!-- ── Hero ───────────────────────────────────────────── -->
   <div class="hero">
-    <p class="hero-label">01 · Web</p>  <!-- Update project number & category -->
-    <h1>Project One</h1>               <!-- Update project title -->
+    <p class="hero-label">01 · Mixed Signal</p>  <!-- Update project number & category -->
+    <h1>Dynamic Threshold Comparitor System</h1>               <!-- Update project title -->
 
     <div class="hero-meta">
       <div class="meta-item">
         <span class="meta-label">Year</span>
-        <span class="meta-value">2024</span>   <!-- Update year -->
+        <span class="meta-value">2025</span>   <!-- Update year -->
       </div>
       <div class="meta-item">
         <span class="meta-label">Status</span>
         <span class="meta-value">Completed</span>  <!-- In Progress / Completed / Archived -->
       </div>
       <div class="meta-item">
-        <span class="meta-label">Role</span>
-        <span class="meta-value">Solo developer</span>   <!-- Your role -->
       </div>
     </div>
 
     <div class="hero-tags">
-      <span class="tag">React</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">PostgreSQL</span>
-      <!-- Add / remove tags -->
+      <span class="tag">Analog Circuit Design</span>
+      <span class="tag">PWM Signal Conditioning</span>
+      <span class="tag">Firmware Development (C++)</span>
+      <span class="tag">Altium Designer</span>
     </div>
 
     <div class="hero-links">
+      <!-- Add a live demo (Upload to youtube?) -->
       <a class="btn btn-primary" href="https://your-live-demo.com" target="_blank">
         Live Demo ↗
       </a>
@@ -523,24 +522,23 @@
         <p class="section-label">Overview</p>
         <h2>What I Built</h2>
         <p>
-          Write a compelling 2–3 sentence overview of your project here. What problem does it solve?
-          Who is it for? What makes it interesting or technically challenging?
+          This project features a mixed-signal control system that utilizes an Arduino-generated PWM signal to establish a precise analog reference voltage. An op-amp
+          comparator circuit validates real time switch states against a software defined threshold value to execute hardware level logic.
         </p>
         <p>
-          Add another paragraph with more context here. This is where you can elaborate on the
-          motivation behind the project and any constraints you were working within.
+          My primary motivation for this project was to develop a hardware-abstracted logic system where the software defined threshold could be dynamicaly tuned via software
+          rather than fixed hardware components. A key design constraint was maintaining a stable DC reference at the inverting pin of the op-amp from a high-frequency PWM source.
+          This required the implementation of a Low-Pass filter. I had just learned about filtering in my Circuit Analysis class and was eager to implement it. Additionally
         </p>
       </div>
 
       <!-- Key features -->
       <div class="section">
         <p class="section-label">Features</p>
-        <h2>What It Does</h2>
         <ul>
-          <li>Feature one — describe what it does and why it matters</li>
-          <li>Feature two — add as many bullets as needed</li>
-          <li>Feature three — keep each item concise and action-oriented</li>
-          <li>Feature four — highlight what you're most proud of</li>
+          <li>Low-Pass Filtering — Smoothed PWM signals into stable DC reference, ensuring accurate comparator thresholds.</li>
+          <li>Input Conditioning — Integrated pull-down resistors on each switch to prevent floating inputs and guarentee logic states</li>
+          <li>Dynamic Calibration — Developed firmware to allow for real-time adjustment of the reference voltage via software</li>
         </ul>
       </div>
 
@@ -551,19 +549,15 @@
         <div class="gallery">
           <div class="gallery-item">
             <div class="gallery-placeholder">Screenshot 1</div>
-            <!-- <img src="../assets/project-1-screen-1.png" alt="Screenshot 1"> -->
+            <img src="assets/images/adnano.png" alt="Screenshot 1">
           </div>
           <div class="gallery-item">
             <div class="gallery-placeholder">Screenshot 2</div>
-            <!-- <img src="../assets/project-1-screen-2.png" alt="Screenshot 2"> -->
+            <img src="assets/images/opamp.png" alt="Screenshot 2">
           </div>
           <div class="gallery-item">
             <div class="gallery-placeholder">Screenshot 3</div>
-            <!-- <img src="../assets/project-1-screen-3.png" alt="Screenshot 3"> -->
-          </div>
-          <div class="gallery-item">
-            <div class="gallery-placeholder">Screenshot 4</div>
-            <!-- <img src="../assets/project-1-screen-4.png" alt="Screenshot 4"> -->
+            <img src="assets/images/switchlog_png.png" alt="Screenshot 3">
           </div>
         </div>
       </div>
@@ -573,12 +567,17 @@
         <p class="section-label">Deep Dive</p>
         <h2>Technical Challenges</h2>
         <p>
-          Discuss the most interesting technical problems you solved. This is what separates a
-          portfolio piece from a tutorial project — show your thinking, not just the outcome.
+          While designing this project, I didnt account for the materials available to me at the time.The only resistors I had were in a pile each with unique values.
+          Despite not having correct values, I decided to move forward with the project making due with what I had. This project luckily uses few resistors, only for the 
+          pull-down and op-amp resistors. After determining each resistors value using my multimeter, I decided that for each pull down resistor, the value was acceptable as long
+          as its "pull-down" strength was sufficient to overcome ambient electromagnetic interference without exceeding the current limits of the 5v rail. More importantly, I chose
+          to compensate for non-ideal resistor ratios on the op-amp simply by adjusting the PWM duty cycle in the firmware. By measuring the actual analog offsets, I was able to determine
+          logic values that allowed for the op-amp to function properly through software calibration
         </p>
         <p>
-          You can include code snippets, architecture decisions, or lessons learned here.
-          Be specific about what was hard and how you solved it.
+          This problem proved to be a great example of the difference between "ideal" and "real world" engineering constraints. Just like a capacitor in real life doesnt function
+          like it would idealy (and causes many headaches when solving mathmatically), my circuit using the resistor values available to me allowed my to think critically about what 
+          the circuit is actually doing, instead of following my schematics blindly. 
         </p>
       </div>
 
@@ -592,48 +591,20 @@
         <p class="sidebar-label">Tech Stack</p>
         <div class="stack-list">
           <div class="stack-item">
-            <span class="stack-name">React</span>
-            <span class="stack-role">Frontend</span>
+            <span class="stack-name">Altium</span>
+            <span class="stack-role">Design</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">Node.js</span>
-            <span class="stack-role">Backend</span>
+            <span class="stack-name">LTSpice</span>
+            <span class="stack-role">Simulation</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">PostgreSQL</span>
-            <span class="stack-role">Database</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-name">Vercel</span>
-            <span class="stack-role">Deployment</span>
+            <span class="stack-name">ArduinoIDE</span>
+            <span class="stack-role">Codebase</span>
           </div>
           <!-- Add or remove rows as needed -->
         </div>
       </div>
-
-      <!-- Stats — fun numbers about your project -->
-      <div class="sidebar-section">
-        <p class="sidebar-label">By the Numbers</p>
-        <div class="stat-grid">
-          <div class="stat-box">
-            <div class="stat-value">3mo</div>
-            <div class="stat-label">Build time</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value">4k</div>
-            <div class="stat-label">Lines of code</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value">12</div>
-            <div class="stat-label">API endpoints</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value">99%</div>
-            <div class="stat-label">Lighthouse score</div>
-          </div>
-        </div>
-      </div>
-
     </aside>
 
   </div>
