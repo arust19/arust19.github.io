@@ -491,9 +491,9 @@
     </div>
  
     <div class="hero-tags">
-      <span class="tag">Embedded Systems</span>
-      <span class="tag">PCB</span>
-      <span class="tag">Altium</span>
+      <span class="tag">Mixed-Signal</span>
+      <span class="tag">Integrated Circuit Design</span>
+      <span class="tag">Power Conditioning</span>
       <!-- Add / remove tags -->
     </div>
  
@@ -521,11 +521,12 @@
         <h2>What I Built</h2>
         <p>
           Originally developed as part of the UW-Madison ECE curriculum, this project is a mixed-signal embedded system designed to provide students with experience
-          designing a custon Printed Circuit Board.
+          designing a custom Printed Circuit Board.
         </p>
         <p>
           As my first real experience designing a PCB, this was an amazing learning experience that taught me the connection between circuit schematics and breadboard prototyping,
-          to real, physical embedded systems. Through this project, I gained valuable insight
+          to real, physical embedded systems. Through this project, I gained valuable insight into the world of electronics, acquiring hands-on experience with various components and
+          PCB engineering practices that I will be able to use in future projects and job opportunities.
         </p>
       </div>
  
@@ -534,14 +535,17 @@
         <p class="section-label">Features</p>
         <h2>What It Does</h2>
         <ul>
-          <li>Feature one — describe what it does and why it matters</li>
-          <li>Feature two — add as many bullets as needed</li>
-          <li>Feature three — keep each item concise and action-oriented</li>
-          <li>Feature four — highlight what you're most proud of</li>
+          <li>Peripheral Control — Implemented a Seeed Studio module featuring the RP2350 IC to handle asynchronous user inputs via a tactial pushbutton, manage
+          audio output signals to an onboard buzzer, and drive the serial data stream for the LED Display.</li>
+          <li>Cascaded Serial LED Display — Programmed and routed a circular array of 12 addressable RGB LEDs. Each LED features a dedicated decoupling capacitor 
+          positioned directly adjacent to the power pin to maintain voltage integrity across the array.</li>
+          <li>Dual-Rail Power Architecture — Engineered a 5V to 3.3V power regulation system to safely step down the 5V power supply.</li>
+          <li>Testability-Driven Design — Integrated multiple physical test points across the board layout to allow for real-time hardware debugging, oscilloscopic
+          signal verification, and easy voltage rail monitoring.</li>
+          <li>Hardware Supervisor & Watchdog Timer - Integrated a Microchip voltage supervisor to implement robust system-level reliability.</li>
         </ul>
       </div>
  
-      <!-- Gallery — replace placeholders with real images -->
       <div class="section">
         <p class="section-label">Gallery</p>
         <h2>Screenshots</h2>
@@ -558,21 +562,49 @@
           <div class="gallery-item">
             <img src="../assets/images/315/maincontrolunit.png" alt="Screenshot 4">
           </div>
+          <div class="gallery-item">
+            <img src="../assets/images/315/Voltage monitor.png" alt="Screenshot 5">
+          </div>
         </div>
       </div>
- 
-      <!-- Technical challenges -->
+
       <div class="section">
         <p class="section-label">Deep Dive</p>
         <h2>Technical Challenges</h2>
         <p>
-          Discuss the most interesting technical problems you solved. This is what separates a
-          portfolio piece from a tutorial project — show your thinking, not just the outcome.
+          Transitioning into custom PCB layout presented an initial learning curve regarding hardware constraints and manufacturing limits. To limit possible design errors prior to fabrication, 
+          I prioritized rigorous Design Rule Checks (DRCs), trace routing optimization, and manufacturing constraints analysis to ensure electrical performance and a professional aesthetic.
         </p>
         <p>
-          You can include code snippets, architecture decisions, or lessons learned here.
-          Be specific about what was hard and how you solved it.
+          Despite my unease about the process, the manufacturing and assembly phase executed flawlessly, confirming the validity of the hardware design. While hardware engineering inherently involves debugging unpredicted
+          failures on complex designs, achieving a fully functional first-pass board solidified my passion for hardware engineering and provided the foundation required to tackle more 
+          advanced projects.
         </p>
+        <p>
+          One feature of this board I'd like to highlight more in-depth would the <strong>Embedded Hardware Supervisor & Watchdog Timer</strong>. Although each Serial LED, has its own decoupling 
+          capacitor, sometimes the real world is prone to more than just small changes in voltage and current. Thats where the Watchdog Timer comes into play.
+        </p>
+        <ul>
+          <li>
+            <strong>
+            - The IC is configured to constantly monitor the 3.3V power rail against a strict, 2.93V threshold. If that threshold is crossed, the IC will automatically force the Master Processor
+              into a clean hardware reset to prevent memory corruption or erratic execution.
+            </strong>
+          </li>
+          <li>
+            <strong>
+            - Additionally, established a hardware watchdog loop (WDI) that requires continuous pulses from the firmware. Its job is to detect a software crash or any possible 
+              infinite loops. If one occurs, the supervisor resets the system.
+            </strong>
+          </li>
+          <li>
+            <strong>
+            - Finally, designed a totem-pole indicator circuit tied directly to the reset line. This will provide visual feedback by illuminating a diode only when the system is
+              actively held in a fault or reset state.
+              </strong>
+          </li>
+        </ul>
+        
       </div>
  
     </article>
@@ -585,20 +617,16 @@
         <p class="sidebar-label">Tech Stack</p>
         <div class="stack-list">
           <div class="stack-item">
-            <span class="stack-name">React</span>
-            <span class="stack-role">Frontend</span>
+            <span class="stack-name">Altium</span>
+            <span class="stack-role">Design</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">Node.js</span>
-            <span class="stack-role">Backend</span>
+            <span class="stack-name">C++</span>
+            <span class="stack-role">Backend language</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">PostgreSQL</span>
-            <span class="stack-role">Database</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-name">Vercel</span>
-            <span class="stack-role">Deployment</span>
+            <span class="stack-name">Seeed Studio (IC-RP2350)</span>
+            <span class="stack-role">Main Control Unit</span>
           </div>
           <!-- Add or remove rows as needed -->
         </div>
@@ -609,20 +637,20 @@
         <p class="sidebar-label">By the Numbers</p>
         <div class="stat-grid">
           <div class="stat-box">
-            <div class="stat-value">3mo</div>
+            <div class="stat-value">4mo</div>
             <div class="stat-label">Build time</div>
           </div>
           <div class="stat-box">
             <div class="stat-value">4k</div>
-            <div class="stat-label">Lines of code</div>
+            <div class="stat-label">Design Rule Checks ran</div>
           </div>
           <div class="stat-box">
-            <div class="stat-value">12</div>
-            <div class="stat-label">API endpoints</div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Test Points</div>
           </div>
           <div class="stat-box">
-            <div class="stat-value">99%</div>
-            <div class="stat-label">Lighthouse score</div>
+            <div class="stat-value">5V - 3.3V</div>
+            <div class="stat-label">Voltage Levels</div>
           </div>
         </div>
       </div>
@@ -633,13 +661,13 @@
  
   <!-- ── Previous / Next project ────────────────────────── -->
   <div class="project-nav">
-    <a href="projects/project-1.html">
+    <a href="project-1.html">
       <p class="nav-hint">← Previous</p>
       <p class="nav-title">Op-Amp Comparator</p>  <!-- Update to previous project name -->
     </a>
-    <a href="project-2.html">
+    <a href="project-3.html">
       <p class="nav-hint">Next →</p>
-      <p class="nav-title">Custom Calculator</p>  <!-- Update to next project name -->
+      <p class="nav-title">8-Bit Calculator</p>  <!-- Update to next project name -->
     </a>
   </div>
  
