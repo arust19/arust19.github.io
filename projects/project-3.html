@@ -568,12 +568,24 @@
         <p class="section-label">Deep Dive</p>
         <h2>Technical Challenges</h2>
         <p>
-          Discuss the most interesting technical problems you solved. This is what separates a
-          portfolio piece from a tutorial project — show your thinking, not just the outcome.
+          In the planning stage of this project, I had the challenge of pin management on the microcontroller. With 16 buttons, a 7-segment display, and a UPDI, the amount
+          of available I/O pins would not be enough. While I coulve gone with a matrix button layout which woulve freed some pins, I decided to offload all display complexity
+          to the MAX7219 over a 3-wire SPI interface. This design choice lowered the 12 pin 7-segment display requirement to just 3 I/O pins. 
         </p>
         <p>
-          You can include code snippets, architecture decisions, or lessons learned here.
-          Be specific about what was hard and how you solved it.
+          A significant portion of the design work involved component sourcing and library management. I found that standard Altium libraries lack many modern components. This lack of component
+          resources required the manual footprint creation for the 4-digit 7-segment display from datasheet dimensions as well as careful verification of the USB-C connector's sequential pin mapping
+          to the manufactures A/B notation. 
+        </p>
+        <p>
+          Once I had the schematics laid out and was ready to design the board, I ran into space issues constantly. Figuring out how to lay the components on the board so it felt like a calculator
+          while leaving room for the routing left me redesigning the PCB multiple times. This forced me to plan ahead on physical requirements like board size, component layout, and routing.
+
+          Once the schemcatics were complete and PCB layout began, I quickly realized space would be the dominant challenge. Unlike my previous experience with PCB design, this project had the
+          unique challenge of feeling like an actual hand-held calculator. With the display at the top of the board and the buttons arranged in a familliar grid that would be easy to use, I also needed
+          to find space for each IC while satisfying requirements like decoupling capacitors, UPDI header, and routing. These requirements forced me to carefully plan ahead on the board layout, keeping the 
+          design compact while still being functional. I went through many redesigns before I could begin routing, reinforcing a fundamental lesson that placement is not just about fitting
+          components on a board, it is about anticipating the routing before a single trace is drawn.
         </p>
       </div>
  
@@ -587,22 +599,21 @@
         <p class="sidebar-label">Tech Stack</p>
         <div class="stack-list">
           <div class="stack-item">
-            <span class="stack-name">React</span>
-            <span class="stack-role">Frontend</span>
+            <span class="stack-name">Altium</span>
+            <span class="stack-role">Design</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">Node.js</span>
-            <span class="stack-role">Backend</span>
+            <span class="stack-name">Bare-Metal</span>
+            <span class="stack-role">Environment</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">PostgreSQL</span>
-            <span class="stack-role">Database</span>
+            <span class="stack-name">C++</span>
+            <span class="stack-role">Codebase</span>
           </div>
           <div class="stack-item">
-            <span class="stack-name">Vercel</span>
-            <span class="stack-role">Deployment</span>
+            <span class="stack-name">ATtiny</span>
+            <span class="stack-role">Microcontroller</span>
           </div>
-          <!-- Add or remove rows as needed -->
         </div>
       </div>
  
@@ -611,20 +622,20 @@
         <p class="sidebar-label">By the Numbers</p>
         <div class="stat-grid">
           <div class="stat-box">
-            <div class="stat-value">3mo</div>
-            <div class="stat-label">Build time</div>
+            <div class="stat-value">2 weeks</div>
+            <div class="stat-label">Current Build time</div>
           </div>
           <div class="stat-box">
-            <div class="stat-value">4k</div>
-            <div class="stat-label">Lines of code</div>
+            <div class="stat-value">6</div>
+            <div class="stat-label">PCB Layout Resisigns</div>
           </div>
           <div class="stat-box">
-            <div class="stat-value">12</div>
-            <div class="stat-label">API endpoints</div>
+            <div class="stat-value">16</div>
+            <div class="stat-label">Tactile Button Count</div>
           </div>
           <div class="stat-box">
-            <div class="stat-value">99%</div>
-            <div class="stat-label">Lighthouse score</div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Resistors</div>
           </div>
         </div>
       </div>
@@ -639,9 +650,9 @@
       <p class="nav-hint">← Previous</p>
       <p class="nav-title">Reflex Timer</p>
     </a>
-    <a href="project-2.html">
+    <a href="project-1.html">
       <p class="nav-hint">Next →</p>
-      <p class="nav-title">8-Bit CPU</p>
+      <p class="nav-title">Op-Amp Comparator</p>
     </a>
   </div>
  
