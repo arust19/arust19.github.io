@@ -520,7 +520,7 @@
         </p>
         <p>
           A major motivation behind this project was to gain experience with Bare-Metal programming and PCB Design. For this project I am utilizing an ATtiny-1617 to act
-          as the CPU, handeling asynchronous hardware interrupts form the tactile buttons. The board also contains a Unified Programming and Debug Interface header (UPDI)
+          as the CPU, handling asynchronous hardware interrupts from tactile buttons. The board also contains a Unified Programming and Debug Interface header (UPDI)
           which will be used to program the ATtiny.
         </p>
       </div>
@@ -531,11 +531,11 @@
         <h2>What It Does</h2>
         <ul>
           <li>MAX7219 — This integrated circuit serves as the primary driver for the 7-segment display, communicating with the ATtiny microcontroller over an SPI bus.</li>
-          <li>USB-C — To provide a reliable power distribution network, a USB-C port is utilized to supply a steady 5V directly to a dedicated board-wide power polygon pour.</li>
-          <li>ATtiny-1617 — The CPU of the calculator; Handels asynchronous interrupts from the tactile buttons in addition to arithmetic computation</li>
+          <li>USB-C — To provide a reliable power distribution network, a USB-C port is utilized to supply a steady 5V directly to a dedicated board-wide top-layer VCC polygon pour.</li>
+          <li>ATtiny-1617 — The CPU of the calculator; Handles asynchronous interrupts from tactile buttons in addition to arithmetic computation</li>
           <li>UPDI — Integrated into the PCB is a Unified Programming and Debug Interface, allowing for seamless programming and flashing of firmware onto the microcontroller. </li>
-          <li>Direct-Pin Button Input — As ATtiny contains internal pull up resistors on its GPIO pins, allowing for each button to be allocated to its own dedicated pin, saving
-          extra resistor soldering while enabeling interrupt detection, eliminating CPU polling cycles.</li>
+          <li>Direct-Pin Button Input — The ATtiny microcontroller contains internal pull up resistors on its GPIO pins, allowing for each button to be allocated its own dedicated pin, saving
+          extra resistor soldering while enabling interrupt detection, eliminating CPU polling cycles.</li>
         </ul>
       </div>
  
@@ -569,7 +569,7 @@
         <h2>Technical Challenges</h2>
         <p>
           In the planning stage of this project, I had the challenge of pin management on the microcontroller. With 16 buttons, a 7-segment display, and a UPDI, the amount
-          of available I/O pins would not be enough. While I coulve gone with a matrix button layout which woulve freed some pins, I decided to offload all display complexity
+          of available I/O pins would not be enough. While I could've gone with a matrix button layout which would've freed some pins, I decided to offload all display complexity
           to the MAX7219 over a 3-wire SPI interface. This design choice lowered the 12 pin 7-segment display requirement to just 3 I/O pins. 
         </p>
         <p>
@@ -578,11 +578,8 @@
           to the manufactures A/B notation. 
         </p>
         <p>
-          Once I had the schematics laid out and was ready to design the board, I ran into space issues constantly. Figuring out how to lay the components on the board so it felt like a calculator
-          while leaving room for the routing left me redesigning the PCB multiple times. This forced me to plan ahead on physical requirements like board size, component layout, and routing.
-
-          Once the schemcatics were complete and PCB layout began, I quickly realized space would be the dominant challenge. Unlike my previous experience with PCB design, this project had the
-          unique challenge of feeling like an actual hand-held calculator. With the display at the top of the board and the buttons arranged in a familliar grid that would be easy to use, I also needed
+          Once the schematics were complete and PCB layout began, I quickly realized space would be the dominant challenge. Unlike my previous experience with PCB design, this project had the
+          unique challenge of feeling like an actual hand-held calculator. With the display at the top of the board and the buttons arranged in a familiar grid that would be easy to use, I also needed
           to find space for each IC while satisfying requirements like decoupling capacitors, UPDI header, and routing. These requirements forced me to carefully plan ahead on the board layout, keeping the 
           design compact while still being functional. I went through many redesigns before I could begin routing, reinforcing a fundamental lesson that placement is not just about fitting
           components on a board, it is about anticipating the routing before a single trace is drawn.
