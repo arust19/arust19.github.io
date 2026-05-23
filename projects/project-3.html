@@ -515,12 +515,13 @@
         <p class="section-label">Overview</p>
         <h2>What I Built</h2>
         <p>
-          Write a compelling 2–3 sentence overview of your project here. What problem does it solve?
-          Who is it for? What makes it interesting or technically challenging?
+          This project is a fully custom calculator that can perform 4 basic arithmetic operations built from scratch. Starting from schematic to PCB design in Altium
+          to soon be manufactured with hand assembled components.
         </p>
         <p>
-          Add another paragraph with more context here. This is where you can elaborate on the
-          motivation behind the project and any constraints you were working within.
+          A major motivation behind this project was to gain experience with Bare-Metal programming and PCB Design. For this project I am utilizing an ATtiny-1617 to act
+          as the CPU, handeling asynchronous hardware interrupts form the tactile buttons. The board also contains a Unified Programming and Debug Interface header (UPDI)
+          which will be used to program the ATtiny.
         </p>
       </div>
  
@@ -529,14 +530,16 @@
         <p class="section-label">Features</p>
         <h2>What It Does</h2>
         <ul>
-          <li>Feature one — describe what it does and why it matters</li>
-          <li>Feature two — add as many bullets as needed</li>
-          <li>Feature three — keep each item concise and action-oriented</li>
-          <li>Feature four — highlight what you're most proud of</li>
+          <li>MAX7219 — This integrated circuit serves as the primary driver for the 7-segment display, communicating with the ATtiny microcontroller over an SPI bus.</li>
+          <li>USB-C — To provide a reliable power distribution network, a USB-C port is utilized to supply a steady 5V directly to a dedicated board-wide power polygon pour.</li>
+          <li>ATtiny-1617 — The CPU of the calculator; Handels asynchronous interrupts from the tactile buttons in addition to arithmetic computation</li>
+          <li>UPDI — Integrated into the PCB is a Unified Programming and Debug Interface, allowing for seamless programming and flashing of firmware onto the microcontroller. </li>
+          <li>Direct-Pin Button Input — As ATtiny contains internal pull up resistors on its GPIO pins, allowing for each button to be allocated to its own dedicated pin, saving
+          extra resistor soldering while enabeling interrupt detection, eliminating CPU polling cycles.</li>
         </ul>
       </div>
  
-      <!-- Gallery — replace placeholders with real images -->
+      <!-- Gallery -->
       <div class="section">
         <p class="section-label">Gallery</p>
         <h2>Screenshots</h2>
